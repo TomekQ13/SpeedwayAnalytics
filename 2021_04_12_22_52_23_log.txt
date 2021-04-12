@@ -1,0 +1,227 @@
+22:52:25: Started scraping match https://speedwayekstraliga.pl/mecz/2153
+22:52:25: home team score 51
+22:52:26: away team score 39
+22:52:26: home team name EWINNER APATOR Toruñ
+22:52:26: away team name MARWIS.PL FALUBAZ Zielona Góra
+22:52:26: Started scraping heats results for match https://speedwayekstraliga.pl/mecz/2153
+22:52:26: Heat number: 1
+22:52:26: Rider: B
+22:52:26: Rider: Damian Pawliczak
+22:52:26: Points: 0
+22:52:26: Rider: A
+22:52:26: Rider: Pawe³ Przedpe³ski
+22:52:26: Points: 2
+22:52:26: Rider: D
+22:52:26: Rider: Max Fricke
+22:52:26: Points: 1
+22:52:26: Rider: C
+22:52:26: Rider: Adrian Miedziñski
+22:52:26: Points: 3
+22:52:26: Heat number: 2
+22:52:26: Rider: B
+22:52:26: Rider: Karol ¯upiñski
+22:52:26: Points: 1
+22:52:26: Rider: A
+22:52:26: Rider: Fabian Ragus
+22:52:26: Points: 3
+22:52:26: Rider: D
+22:52:26: Rider: Krzysztof Lewandowski
+22:52:26: Points: 2
+22:52:26: Rider: C
+22:52:26: Rider: Jakub Osyczka
+22:52:26: Points: 0
+22:52:26: Heat number: 3
+22:52:26: Rider: B
+22:52:26: Rider: Matej Zagar
+22:52:26: Points: 0
+22:52:26: Rider: A
+22:52:26: Rider: Robert Lambert
+22:52:26: Points: 1
+22:52:26: Rider: D
+22:52:26: Rider: Patryk Dudek
+22:52:26: Points: 3
+22:52:26: Rider: C
+22:52:26: Rider: Chris Holder
+22:52:26: Points: 2
+22:52:26: Heat number: 4
+22:52:26: Rider: B
+22:52:26: Rider: Krzysztof Lewandowski
+22:52:27: Points: 2
+22:52:27: Rider: A
+22:52:27: Rider: Piotr Protasiewicz
+22:52:27: Points: 1
+22:52:27: Rider: D
+22:52:27: Rider: Jack Holder
+22:52:27: Points: 3
+22:52:27: Rider: C
+22:52:27: Rider: Fabian Ragus
+22:52:27: Points: 0
+22:52:27: Heat number: 5
+22:52:27: Rider: B
+22:52:27: Rider: Adrian Miedziñski
+22:52:27: Points: W
+22:52:27: Rider: A
+22:52:27: Rider: Max Fricke
+22:52:27: Points: 
+22:52:27: Rider: D
+22:52:27: Rider: Robert Lambert
+22:52:27: Points: 
+22:52:27: Rider: C
+22:52:27: Rider: Piotr Protasiewicz
+22:52:27: Points: 
+22:52:27: Heat number: 5
+22:52:27: Rider: B
+22:52:27: Rider: Adrian Miedziñski
+22:52:27: Points: -
+22:52:27: Rider: A
+22:52:27: Rider: Max Fricke
+22:52:27: Points: 3
+22:52:27: Rider: D
+22:52:27: Rider: Robert Lambert
+22:52:27: Points: 2
+22:52:27: Rider: C
+22:52:27: Rider: Piotr Protasiewicz
+22:52:27: Points: 1
+22:52:27: Heat number: 6
+22:52:27: Rider: B
+22:52:27: Rider: Chris Holder
+22:52:27: Points: 2
+22:52:27: Rider: A
+22:52:27: Rider: Patryk Dudek
+22:52:27: Points: 3
+22:52:27: Rider: D
+22:52:27: Rider: Karol ¯upiñski
+22:52:27: Points: 0
+22:52:28: Rider: C
+22:52:28: Rider: Jan Kvech
+22:52:28: Points: 1
+22:52:28: Heat number: 7
+22:52:28: Rider: B
+22:52:28: Rider: Jakub Osyczka
+22:52:28: Points: 0
+22:52:28: Rider: A
+22:52:28: Rider: Jack Holder
+22:52:28: Points: 2
+22:52:28: Rider: D
+22:52:28: Rider: Matej Zagar
+22:52:28: Points: 1
+22:52:28: Rider: C
+22:52:28: Rider: Pawe³ Przedpe³ski
+22:52:28: Points: 3
+22:52:28: Heat number: 8
+22:52:28: Rider: B
+22:52:28: Rider: Max Fricke
+22:52:28: Points: 2
+22:52:28: Rider: A
+22:52:28: Rider: Chris Holder
+22:52:28: Points: 3
+22:52:28: Rider: D
+22:52:28: Rider: Piotr Protasiewicz
+22:52:28: Points: 1
+22:52:28: Rider: C
+22:52:28: Rider: Krzysztof Lewandowski
+22:52:28: Points: 0
+22:52:28: Heat number: 9
+22:52:28: Rider: B
+22:52:28: Rider: Pawe³ Przedpe³ski
+22:52:28: Points: 0
+22:52:28: Rider: A
+22:52:28: Rider: Max Fricke
+22:52:28: Points: 2
+22:52:28: Rider: D
+22:52:28: Rider: Jack Holder
+22:52:28: Points: 1
+22:52:28: Rider: C
+22:52:28: Rider: Patryk Dudek
+22:52:28: Points: 3
+22:52:28: Heat number: 10
+22:52:28: Rider: B
+22:52:29: Rider: Fabian Ragus
+22:52:29: Points: 0
+22:52:29: Rider: A
+22:52:29: Rider: Adrian Miedziñski
+22:52:29: Points: 2
+22:52:29: Rider: D
+22:52:29: Rider: Matej Zagar
+22:52:29: Points: 3
+22:52:29: Rider: C
+22:52:29: Rider: Robert Lambert
+22:52:29: Points: 1
+22:52:29: Heat number: 11
+22:52:29: Rider: B
+22:52:29: Rider: Robert Lambert
+22:52:29: Points: 1
+22:52:29: Rider: A
+22:52:29: Rider: Piotr Protasiewicz
+22:52:29: Points: 2
+22:52:29: Rider: D
+22:52:29: Rider: Pawe³ Przedpe³ski
+22:52:29: Points: 3
+22:52:29: Rider: C
+22:52:29: Rider: Jan Kvech
+22:52:29: Points: 0
+22:52:29: Heat number: 12
+22:52:29: Rider: B
+22:52:29: Rider: Patryk Dudek
+22:52:29: Points: 3
+22:52:29: Rider: A
+22:52:29: Rider: Karol ¯upiñski
+22:52:29: Points: 1
+22:52:29: Rider: D
+22:52:29: Rider: Fabian Ragus
+22:52:29: Points: 0
+22:52:29: Rider: C
+22:52:29: Rider: Adrian Miedziñski
+22:52:29: Points: 2
+22:52:29: Heat number: 13
+22:52:29: Rider: B
+22:52:29: Rider: Jack Holder
+22:52:29: Points: u
+22:52:30: Rider: A
+22:52:30: Rider: Matej Zagar
+22:52:30: Points: W
+22:52:30: Rider: D
+22:52:30: Rider: Chris Holder
+22:52:30: Points: u
+22:52:30: Rider: C
+22:52:30: Rider: Max Fricke
+22:52:30: Points: 
+22:52:30: Heat number: 13
+22:52:30: Rider: B
+22:52:30: Rider: Jack Holder
+22:52:30: Points: 3
+22:52:30: Rider: A
+22:52:30: Rider: Matej Zagar
+22:52:30: Points: -
+22:52:30: Rider: D
+22:52:30: Rider: Chris Holder
+22:52:30: Points: 1
+22:52:30: Rider: C
+22:52:30: Rider: Max Fricke
+22:52:30: Points: 2
+22:52:30: Heat number: 14
+22:52:30: Rider: B
+22:52:30: Rider: Patryk Dudek
+22:52:30: Points: 1
+22:52:30: Rider: A
+22:52:30: Rider: Pawe³ Przedpe³ski
+22:52:30: Points: 3
+22:52:30: Rider: D
+22:52:30: Rider: Matej Zagar
+22:52:30: Points: D
+22:52:30: Rider: C
+22:52:30: Rider: Adrian Miedziñski
+22:52:30: Points: 2
+22:52:30: Heat number: 15
+22:52:30: Rider: B
+22:52:30: Rider: Jack Holder
+22:52:30: Points: 1
+22:52:30: Rider: A
+22:52:30: Rider: Max Fricke
+22:52:30: Points: 3
+22:52:31: Rider: D
+22:52:31: Rider: Chris Holder
+22:52:31: Points: 2
+22:52:31: Rider: C
+22:52:31: Rider: Patryk Dudek
+22:52:31: Points: 0
