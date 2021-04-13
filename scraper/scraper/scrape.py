@@ -18,6 +18,7 @@ class Scraper:
 
         self.driver = webdriver.Chrome(self.path)
         self._log = log
+        self._log_path = Path(os.getcwd()) / 'scraper' / 'logs'
 
         #init timestamp is used to access the log file with the same name each time the log method is called
         self._timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
@@ -47,12 +48,12 @@ class Scraper:
 
     def log(self, text, filename='log', print=False):
         if self._log:                       
-            final_filename = self._timestamp + '_' + filename + '.txt'
+            final_filename =  self._timestamp + '_' + filename + '.txt'
 
             #the timestamp for the log line should be generated when the method is called
             timestamp_logfile = datetime.now().strftime('%H:%M:%S')
 
-            with open(final_filename, 'a') as f:
+            with open(self._log_path / final_filename, 'a') as f:
                 f.write(timestamp_logfile + ': ' + text + '\n')
 
             if print:
@@ -165,18 +166,5 @@ class Scraper:
     def make_post_request(api_endpoint, post_dict):
         pass
 
-try:
-    test = Scraper(print=True)    
-    #a = test.scrape_match_results('https://speedwayekstraliga.pl/mecz/2153')
-    #b = test.scrape_heat_results('https://speedwayekstraliga.pl/mecz/2153')
-    #print(test.prepare_matches_list('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2020'))
-    test.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2020')
-    
-    test.close()
-    #print(a)
-    #print(b)
-except Exception as e:
-    print(e)
-    test.close()
 
 
