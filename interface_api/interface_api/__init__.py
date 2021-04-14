@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from interface_api.interface_api.config import Config
+from interface_api.config import Config
 
 db = SQLAlchemy()
 
@@ -11,3 +11,5 @@ def create_app():
     db.init_app(app)
 
     return app
+
+

@@ -1,5 +1,5 @@
 from flask import Flask
-from interface_api.interface_api import app
+from interface_api import app
 
 @app.route('/match', methods = ['GET'])
 def new_match():
