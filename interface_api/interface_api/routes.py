@@ -1,16 +1,23 @@
 from flask import Flask, request, jsonify, Blueprint
 from interface_api.models import Heat, Match
+from interface_api.utils import Serialize
 
 main = Blueprint('main', __name__)
 
 @main.route('/match', methods = ['GET'])
 def match():
+    """Returns a list of all matches or accepts parameters which are columns from the match table and create dynamic filter"""
+    # Checks if there are no unknown query parameters - only match_id is accepted
+    for key in request.args.keys():
+        if key not in Match.__dict__:
+            return jsonify({'message': 'Unknown query parameter.'})
+
     match_id = request.args.get('match_id')
+    print(request.args.to_dict())
     if match_id:
-        return jsonify(Match.query.get(match_id))
-    else:
-        matches = [x for x in Match.query.all()]
-        return jsonify()
+        return jsonify(Match.query.get(match_id).serialize(excl_list=['heats']))
+    else:        
+        return jsonify(Serialize.serialize_list(Match.query.filter(request.args.to_dict())))
 
 @main.route('/heat', methods = ['GET'])
 def heat():

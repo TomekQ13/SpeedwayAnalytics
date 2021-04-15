@@ -24,15 +24,6 @@ class Match(db.Model, Serialize):
     away_team_score = db.Column(db.Integer())
     heats = db.relationship('Heat', backref='match')
 
-    def serialize(self):
-        """Serializes the object to dictionary"""
-        return_dict = {}
-        return_dict['match_id'] = self.match_id
-        return_dict['home_team'] = self.home_team
-        return_dict['away_team'] = self.away_team
-        return_dict['home_team_score'] = self.home_team_score
-        return_dict['away_team_score'] = self.away_team_score
-        return return_dict
 
 
         

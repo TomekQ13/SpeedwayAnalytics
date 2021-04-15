@@ -13,3 +13,6 @@ db.session.add(match)
 db.session.commit()
 
 matches = Match.query.all()
+
+match.serialize()
+match.serialize(excl_list=['heats'])
