@@ -1,6 +1,7 @@
 from interface_api import db
+from interface_api.utils import Serialize
 
-class Heat(db.Model):
+class Heat(db.Model, Serialize):
     __tablename__ = 'if_heat'
     heat_id = db.Column(db.Integer(), primary_key=True)
     match_id = db.Column(db.Integer(), db.ForeignKey('if_match.match_id', ondelete='CASCADE'))
@@ -14,7 +15,7 @@ class Heat(db.Model):
     d_rider = db.Column(db.String(64), nullable=False)
     d_score = db.Column(db.String(3), nullable=False)
 
-class Match(db.Model):
+class Match(db.Model, Serialize):
     __tablename__ = 'if_match'
     match_id = db.Column(db.Integer(), primary_key=True)
     home_team = db.Column(db.String(64))
@@ -22,3 +23,16 @@ class Match(db.Model):
     home_team_score = db.Column(db.Integer())
     away_team_score = db.Column(db.Integer())
     heats = db.relationship('Heat', backref='match')
+
+    def serialize(self):
+        """Serializes the object to dictionary"""
+        return_dict = {}
+        return_dict['match_id'] = self.match_id
+        return_dict['home_team'] = self.home_team
+        return_dict['away_team'] = self.away_team
+        return_dict['home_team_score'] = self.home_team_score
+        return_dict['away_team_score'] = self.away_team_score
+        return return_dict
+
+
+        
