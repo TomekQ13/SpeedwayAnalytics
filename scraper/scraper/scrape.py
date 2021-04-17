@@ -6,19 +6,23 @@ from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.ui import WebDriverWait
+from requests import post
 
-from exceptions import ExpectedValueMissingException
+from scraper.exceptions import ExpectedValueMissingException
+from scraper.preprocess import rider_name
 
 class Scraper:
-    def __init__(self, driver_path=None, log=True):
+    """Scrapes data about speedway matches"""
+    def __init__(self, driver_path=None, log=True, api=True):
         if driver_path:
             self.path = driver_path
         else:
-            self.path = Path(os.getcwd()) / 'scraper' / 'chromedriver.exe'
+            self.path = Path(os.getcwd()) / 'chromedriver.exe'
 
         self.driver = webdriver.Chrome(self.path)
         self._log = log
-        self._log_path = Path(os.getcwd()) / 'scraper' / 'logs'
+        self._log_path = Path(os.getcwd())  / 'logs'
+        self._api = api
 
         #init timestamp is used to access the log file with the same name each time the log method is called
         self._timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
@@ -100,6 +104,7 @@ class Scraper:
             result_dict['date'] = match_info[2].text[0:match_info[2].text.find(',')]
             result_dict['time'] = match_info[2].text[match_info[2].text.find(',') + 2:]
 
+        # here needs to be an api call
         return result_dict
     
     def scrape_heat_results(self, match_url):
@@ -119,33 +124,35 @@ class Scraper:
             
             self.log(f"Heat number: {results_dict['heat_number']}")
 
-            #this will loop over every rider in the heat - scraping information about riders
             riders = heat.find_elements_by_tag_name('tr')
-            rider_list = []
-            for rider in riders:
-                # get information about the results for particular ride in the heat
-                property = rider.find_elements_by_tag_name('td')
-                rider_dict = {}
-                rider_dict['start_position'] = property[0].text
-                self.log(f"Rider: {property[0].text}")
-                #driver needs transformations to account for replacements - the replacements are usually a line below
-                #so select everything after the \n 
-                if property[2].text.find('\n'):
-                    rider_dict['rider'] = property[2].text[property[2].text.find('\n')+1:]
-                else:
-                    rider_dict['rider'] = property[2].text
 
-                self.log(f"Rider: {rider_dict['rider']}")                
-                
-                rider_dict['points'] = property[3].text
-                self.log(f"Points: {property[3].text}")  
-                #append the single results of a rider to the heat results list
-                rider_list.append(rider_dict)
+            property = riders[0].find_elements_by_tag_name('td')
+            results_dict['a_rider'] = rider_name(property)
+            self.log(f"A_rider: {results_dict['a_rider']}")
+            results_dict['a_score'] = property[3].text
+            self.log(f"A_score: {results_dict['a_score']}")
+            
+            property = riders[1].find_elements_by_tag_name('td')
+            results_dict['b_rider'] = property[2].text
+            self.log(f"B_rider: {results_dict['b_rider']}")
+            results_dict['b_score'] = property[3].text
+            self.log(f"B_score: {results_dict['b_score']}")
+            
+            property = riders[2].find_elements_by_tag_name('td')
+            results_dict['c_rider'] = property[2].text
+            self.log(f"C_rider: {results_dict['c_rider']}")
+            results_dict['c_score'] = property[3].text
+            self.log(f"C_score: {results_dict['c_score']}")
+            
+            property = riders[3].find_elements_by_tag_name('td')
+            results_dict['d_rider'] = property[2].text
+            self.log(f"D_rider: {results_dict['d_rider']}")
+            results_dict['d_score'] = property[3].text
+            self.log(f"D_score: {results_dict['d_score']}")
 
-                #add the heat results list to the dictionary 
-            results_dict[f'heat_results'] = rider_list
 
             results_list.append(results_dict)
+            # here needs to be an api call
         
         return results_list 
 
@@ -155,6 +162,7 @@ class Scraper:
 
         self.log(f'Starting to generate a list of the matches urls from url {results_page}')        
         matches = self.driver.find_elements_by_class_name('schedule-events__item')
+        # here needs to be a check added for incomplete years in the future if this is a desired functionality
         return [match.find_element_by_tag_name('a').get_attribute('href') for match in matches]
 
     def scrape_year(self, year_results):
@@ -163,8 +171,6 @@ class Scraper:
             self.scrape_heat_results(match)
             self.log(f'Scraping of match {match} finished.')
 
-    def make_post_request(api_endpoint, post_dict):
-        pass
 
 
 
