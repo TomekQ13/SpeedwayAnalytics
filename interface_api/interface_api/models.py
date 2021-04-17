@@ -19,7 +19,7 @@ class Heat(db.Model, Serialize):
 class Match(db.Model, Serialize):
     __tablename__ = 'if_match'
     match_id = db.Column(db.Integer(), primary_key=True)
-    match_url = db.Column(db.String(1024), nullable=False)
+    match_url = db.Column(db.Text(), nullable=False)
     stadium = db.Column(db.String(128), nullable=False)
     round = db.Column(db.Integer(), nullable=False)
     date = db.Column(db.Date(), nullable=False)
