@@ -1,3 +1,4 @@
+from datetime import date
 from interface_api import db
 from interface_api.utils import Serialize
 
@@ -18,6 +19,11 @@ class Heat(db.Model, Serialize):
 class Match(db.Model, Serialize):
     __tablename__ = 'if_match'
     match_id = db.Column(db.Integer(), primary_key=True)
+    match_url = db.Column(db.String(1024), nullable=False)
+    stadium = db.Column(db.String(128), nullable=False)
+    round = db.Column(db.Integer(), nullable=False)
+    date = db.Column(db.Date(), nullable=False)
+    time = db.Column(db.Time(), nullable=False)
     home_team = db.Column(db.String(64), nullable=False)
     away_team = db.Column(db.String(64), nullable=False)
     home_team_score = db.Column(db.Integer(), nullable=False)
