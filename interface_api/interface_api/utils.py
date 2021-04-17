@@ -17,6 +17,7 @@ Takes optional exclusion list and inclusion list arguments."""
         return {column: getattr(self, column) for column in inspect(self).attrs.keys()}
 
     @staticmethod
-    def serialize_list(list_arg: list):
+    def serialize_list(list_arg: list, excl_list:list = None, incl_list:list = None):
         """Serializes a list of results to a list of dictionaries"""
-        return [element.serialize() for element in list_arg]
+        return [element.serialize(excl_list, incl_list) for element in list_arg]
+

@@ -18,10 +18,10 @@ class Heat(db.Model, Serialize):
 class Match(db.Model, Serialize):
     __tablename__ = 'if_match'
     match_id = db.Column(db.Integer(), primary_key=True)
-    home_team = db.Column(db.String(64))
-    away_team = db.Column(db.String(64))
-    home_team_score = db.Column(db.Integer())
-    away_team_score = db.Column(db.Integer())
+    home_team = db.Column(db.String(64), nullable=False)
+    away_team = db.Column(db.String(64), nullable=False)
+    home_team_score = db.Column(db.Integer(), nullable=False)
+    away_team_score = db.Column(db.Integer(), nullable=False)
     heats = db.relationship('Heat', backref='match')
 
 
