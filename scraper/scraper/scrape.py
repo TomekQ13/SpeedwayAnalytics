@@ -23,6 +23,7 @@ class Scraper:
         self._log = log
         self._log_path = Path(os.getcwd())  / 'logs'
         self._api = api
+        self._interface_api_url = os.environ.get('INTERFACE_API_URL')
 
         #init timestamp is used to access the log file with the same name each time the log method is called
         self._timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
@@ -37,18 +38,13 @@ class Scraper:
         """Wrapper around selenium driver.close method."""
         self.driver.close()
 
-    def accept_cookies(self):
-        """Waits for the cookie message to popup and accepts"""
+    def post_match(self, data):
+        """Makes a POST request to API endpoint which adds a match to the database"""
+        return post(self._interface_api_url + 'new_match', data)
 
-        def alert_checker(webdriver):
-            print('func called')
-            try:
-                print(Alert(webdriver).text)
-                return True
-            except NoAlertPresentException:
-                return False
-
-        WebDriverWait(self.driver, 30, 1).until(lambda x: alert_checker(x))
+    def post_heat(self, data):
+        """Makes a POST request to API endpoint which adds a heat to the database"""
+        return post(self._interface_api_url + 'new_heat', data)
 
     def log(self, text, filename='log', print=False):
         if self._log:                       
