@@ -1,3 +1,4 @@
 .vscode
 *.txt
 site.db
+__pycache__

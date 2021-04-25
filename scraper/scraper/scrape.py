@@ -1,19 +1,21 @@
 import os
 from datetime import datetime
+from hashlib import sha256
 from pathlib import Path
 
 from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.ui import WebDriverWait
-from requests import post
+from requests import post, get
+from datetime import datetime
 
 from scraper.exceptions import ExpectedValueMissingException
 from scraper.preprocess import rider_name
 
 class Scraper:
     """Scrapes data about speedway matches"""
-    def __init__(self, driver_path=None, log=True, api=True):
+    def __init__(self, driver_path=None, log=True, api=True, replace_matches=False):
         if driver_path:
             self.path = driver_path
         else:
@@ -24,6 +26,10 @@ class Scraper:
         self._log_path = Path(os.getcwd())  / 'logs'
         self._api = api
         self._interface_api_url = os.environ.get('INTERFACE_API_URL')
+
+        # if set to True and already existing match is identified
+        #  the scraper will make a DELETE request to an endpoint to delete the match and replace it
+        self._replace_matches = replace_matches
 
         #init timestamp is used to access the log file with the same name each time the log method is called
         self._timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
@@ -40,11 +46,24 @@ class Scraper:
 
     def post_match(self, data):
         """Makes a POST request to API endpoint which adds a match to the database"""
-        return post(self._interface_api_url + 'new_match', data)
+        self.log(f'Making API request to new_match endpoint with: {data}')
+        r = post(self._interface_api_url + 'new_match', json=data)
+        self.log(f"Made an API call to add the match details with return message {r.text}")
+
+        return r
 
     def post_heat(self, data):
         """Makes a POST request to API endpoint which adds a heat to the database"""
-        return post(self._interface_api_url + 'new_heat', data)
+        self.log(f'Making API request to new_heat endpoint with: {data}')
+        r = post(self._interface_api_url + 'new_heat', json=data)
+        self.log(f"Made an API call to add the heat results with return message {r.text}")
+
+        return r
+
+    def get_match_hash(self, result_dict):
+        concatenate = f"{result_dict['name_team_home']}|{result_dict['name_team_away']}|{result_dict['date']}".encode()
+        match_hash = sha256(concatenate).hexdigest()
+        return match_hash
 
     def log(self, text, filename='log', print=False):
         if self._log:                       
@@ -85,10 +104,10 @@ class Scraper:
         else:
             home_team_name = names[0].text[0:names[0].text.find('\n')]
             result_dict['name_team_home'] = home_team_name
-            self.log(f'home team name {home_team_name}')
+            self.log(f'name team home {home_team_name}')
             away_team_name = names[1].text[0:names[1].text.find('\n')]
             result_dict['name_team_away'] = away_team_name
-            self.log(f'away team name {away_team_name}')
+            self.log(f'name team away {away_team_name}')
 
         #get match details
         match_info = self.driver.find_element_by_class_name('match__header__info').find_elements_by_tag_name('div')
@@ -97,10 +116,14 @@ class Scraper:
         else:
             result_dict['stadium'] = match_info[0].text
             result_dict['round'] = match_info[1].text
-            result_dict['date'] = match_info[2].text[0:match_info[2].text.find(',')]
+            # date is changed to a Python date object
+            result_dict['date'] = datetime.strptime(match_info[2].text[0:match_info[2].text.find(',')], '%d.%m.%Y').strftime('%Y-%m-%d')
+            result_dict['year'] = datetime.year(result_dict['date'])
             result_dict['time'] = match_info[2].text[match_info[2].text.find(',') + 2:]
+        
+        result_dict['match_hash'] = self.get_match_hash(result_dict)
+        self.post_match(result_dict)       
 
-        # here needs to be an api call
         return result_dict
     
     def scrape_heat_results(self, match_url):
@@ -146,10 +169,10 @@ class Scraper:
             results_dict['d_score'] = property[3].text
             self.log(f"D_score: {results_dict['d_score']}")
 
-
-            results_list.append(results_dict)
-            # here needs to be an api call
-        
+            results_list.append(results_dict)            
+            
+            self.post_heat(results_dict)
+                    
         return results_list 
 
     def prepare_matches_list(self, results_page):
@@ -163,8 +186,22 @@ class Scraper:
 
     def scrape_year(self, year_results):
         for match in self.prepare_matches_list(year_results):
-            self.scrape_match_results(match)
-            self.scrape_heat_results(match)
+            match_results = self.scrape_match_results(match)
+            # the block of code if this match already exists in the databse
+            r = get(self._interface_api_url + 'match', {'match_hash': match_results['match_hash']})
+            if r and self._interface_api_url: #match exists
+                # here a delete request needs to be made
+                pass
+                self.scrape_heat_results(match)
+            
+            if r and not self._interface_api_url:
+                # here we need to skip the match
+                pass
+
+            if not r:
+                # add the match to the db
+                pass
+
             self.log(f'Scraping of match {match} finished.')
 
 

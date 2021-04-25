@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
 
 from interface_api import db
 from interface_api.models import Heat, Match
@@ -49,10 +50,15 @@ def heat():
 def new_match():
     """Adds a new match to the match table"""
     attributes = request.get_json()
-    # check if there are any parameters - if no it would cause a runtime error with **
+    # check if there are any parameters - if no it would cause a runtime error
     if not attributes:
         return jsonify({'message': 'No parameters provided with the request.'})
 
+    # this is an exception for SQLite so the date can be addded to the database - it needs to be a Python date object
+    attributes['date'] = datetime.strptime(attributes['date'], '%Y-%m-%d')
+    # this is an exception for SQLite so the time can be addded to the database - it needs to be a Python time object
+    attributes['time'] = datetime.strptime(attributes['time'], '%H:%M').time()
+    print(attributes)
     match = Match(**attributes)
     db.session.add(match)
 
@@ -64,7 +70,7 @@ def new_match():
     except Exception as e:
         return jsonify({'message': 'Error encountered while trying to add the match', 'error_message': str(e)})
 
-    return jsonify({'message': 'Match added successfully.'})    
+    return jsonify({'message': 'Match added successfully.'}), 201
 
 @main.route('/new_heat', methods = ['POST'])
 def new_heat():
@@ -77,7 +83,7 @@ def new_heat():
     match = Heat(**attributes)
     db.session.add(match)
 
-    # Tries to add the match to the table, if catches IntegrityError it means that integrity constraint was violated
+    # Tries to add the heat to the table, if catches IntegrityError it means that integrity constraint was violated
     try:
         db.session.commit()
     except IntegrityError as e:
@@ -85,7 +91,7 @@ def new_heat():
     except Exception as e:
         return jsonify({'message': 'Error encountered while trying to add the match', 'error_message': str(e)})
 
-    return jsonify({'message': 'Match added successfully.'})    
+    return jsonify({'message': 'Heat added successfully.'}), 201
 
 @main.route('/delete_match', methods = ['DELETE'])
 def delete_match():
