@@ -8,15 +8,15 @@ db.create_all()
 
 from interface_api.models import Heat, Match
 
-match = Match(home_team = 'test_team_home', away_team = 'test_team_away', home_team_score=1, away_team_score=2)
+match = Match(name_team_home = 'test_team_home', name_team_away = 'test_team_away', score_team_home=1, score_team_away=2)
 db.session.add(match)
 db.session.commit()
 
-match2 = Match(home_team = 'test_team_home', away_team = 'test_team_away', home_team_score=3, away_team_score=4)
+match2 = Match(name_team_home = 'test_team_home', name_team_away = 'test_team_away', score_team_home=3, score_team_away=4)
 db.session.add(match2)
 db.session.commit()
 
-match3 = Match(**{'home_team': 'test_team_home', 'away_team': 'test_team_away', 'home_team_score':3, 'away_team_score':5})
+match3 = Match(**{'name_team_home': 'test_team_home', 'name_team_away': 'test_team_away', 'score_team_home':3, 'score_team_away':5})
 db.session.add(match3)
 db.session.commit()
 

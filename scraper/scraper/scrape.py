@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.ui import WebDriverWait
-from requests import post, get
+from requests import post, get, delete
 from datetime import datetime
 
 from scraper.exceptions import ExpectedValueMissingException
@@ -15,7 +15,7 @@ from scraper.preprocess import rider_name
 
 class Scraper:
     """Scrapes data about speedway matches"""
-    def __init__(self, driver_path=None, log=True, api=True, replace_matches=False):
+    def __init__(self, driver_path=None, log=True, api=True, replace_matches=True):
         if driver_path:
             self.path = driver_path
         else:
@@ -118,11 +118,11 @@ class Scraper:
             result_dict['round'] = match_info[1].text
             # date is changed to a Python date object
             result_dict['date'] = datetime.strptime(match_info[2].text[0:match_info[2].text.find(',')], '%d.%m.%Y').strftime('%Y-%m-%d')
-            result_dict['year'] = datetime.year(result_dict['date'])
+            result_dict['year'] = datetime.strptime(match_info[2].text[0:match_info[2].text.find(',')], '%d.%m.%Y').year
             result_dict['time'] = match_info[2].text[match_info[2].text.find(',') + 2:]
         
         result_dict['match_hash'] = self.get_match_hash(result_dict)
-        self.post_match(result_dict)       
+             
 
         return result_dict
     
@@ -188,19 +188,24 @@ class Scraper:
         for match in self.prepare_matches_list(year_results):
             match_results = self.scrape_match_results(match)
             # the block of code if this match already exists in the databse
-            r = get(self._interface_api_url + 'match', {'match_hash': match_results['match_hash']})
-            if r and self._interface_api_url: #match exists
-                # here a delete request needs to be made
-                pass
-                self.scrape_heat_results(match)
+            r = get(self._interface_api_url + 'match', {'match_hash': match_results['match_hash']}).json()
+            self.log(f"Request to check if match exists returned {r}")
+            if r:
+                r = r[0]
+                if self._replace_matches: #match exists:
+                    resp_del = delete(self._interface_api_url + 'delete_match' + '/' + str(r['match_id']))
+                    self.log(f"Made a delete request for match with match hash {match_results['match_hash']}. Received repsonse {resp_del.text}")
+                    resp = self.post_match(match_results) 
+                    self.log(f"Adding match results finished with response {resp.text}")
+                    self.scrape_heat_results(match)
             
-            if r and not self._interface_api_url:
-                # here we need to skip the match
-                pass
+                if not self._replace_matches:
+                    # here we need to skip the match
+                    continue
 
             if not r:
-                # add the match to the db
-                pass
+                self.post_match(match_results) 
+                self.scrape_heat_results(match)
 
             self.log(f'Scraping of match {match} finished.')
 

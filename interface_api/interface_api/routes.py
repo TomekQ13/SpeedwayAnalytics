@@ -19,7 +19,7 @@ def match():
     for key in request.args.keys():
         if key not in Match.__dict__:
             return jsonify({'message': 'Unknown query parameter.'})
-
+ 
     # Takes all GET request parameters and translates them to a SQLAlchemy query parameters
     query = Match.query
     for key, value in request.args.items():
@@ -58,7 +58,6 @@ def new_match():
     attributes['date'] = datetime.strptime(attributes['date'], '%Y-%m-%d')
     # this is an exception for SQLite so the time can be addded to the database - it needs to be a Python time object
     attributes['time'] = datetime.strptime(attributes['time'], '%H:%M').time()
-    print(attributes)
     match = Match(**attributes)
     db.session.add(match)
 
@@ -93,10 +92,9 @@ def new_heat():
 
     return jsonify({'message': 'Heat added successfully.'}), 201
 
-@main.route('/delete_match', methods = ['DELETE'])
-def delete_match():
+@main.route('/delete_match/<int:match_id>', methods = ['DELETE'])
+def delete_match(match_id):
     """Deletes a match"""
-    match_id = request.args.get('match_id')
     if not match_id:
         return jsonify({'message': 'Please specify a match_id as a request parameter.'})
 
