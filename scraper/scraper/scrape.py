@@ -201,6 +201,7 @@ class Scraper:
             
                 if not self._replace_matches:
                     # here we need to skip the match
+                    self.log(f"This match is already in the database. Skipping. Match url {match_results['match_url']}")
                     continue
 
             if not r:
