@@ -1,0 +1,20 @@
+version: '1'
+services:
+    postgres:
+        image: 'postgres:latest'
+        restart: always
+        environment: 
+             - POSTGRES_PASSWORD: postgres_password
+        volumes: 
+             - ./database:/database
+    scraper:
+        build:
+            context: ./scraper
+        volumes: 
+             - ./scraper:/scraper
+    interface_api:
+        build:
+            context: ./interface_api
+        volumes: 
+             - ./interface_api:/interface_api
+        restart: always
