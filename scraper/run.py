@@ -1,6 +1,6 @@
 from scraper.scrape import Scraper
 
-scraper = Scraper(driver_path = 'chromedriver.exe')
+scraper = Scraper()
 try:
     scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2020')
     scraper.log('Finished year 2020')
