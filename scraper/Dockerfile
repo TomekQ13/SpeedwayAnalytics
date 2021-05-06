@@ -1,7 +1,7 @@
 FROM python:3.8
 RUN pip install pipenv
 
-ENV PROJECT_DIR /interface_api
+ENV PROJECT_DIR /scraper
 ENV FLASK_APP run.py
 ENV DATABASE postgres-database
 COPY Pipfile Pipfile.lock ${PROJECT_DIR}/
