@@ -9,6 +9,6 @@ WORKDIR ${PROJECT_DIR}/
 RUN pipenv install --system --deploy
 COPY . .
 
-RUN cd .. && chmod a+x chromedriver
+RUN chmod a+x chromedriver.exe
 
 CMD ["python", "run.py"]
