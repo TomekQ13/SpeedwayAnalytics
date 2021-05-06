@@ -4,7 +4,7 @@ services:
         image: 'postgres:latest'
         restart: always
         environment: 
-             - POSTGRES_PASSWORD: postgres_password
+             - POSTGRES_PASSWORD: postgres
         volumes: 
              - ./database:/database
     scraper:
