@@ -20,3 +20,5 @@ services:
         volumes: 
              - ./interface_api:/interface_api
         restart: always
+        ports:
+            - '8000:8000'
