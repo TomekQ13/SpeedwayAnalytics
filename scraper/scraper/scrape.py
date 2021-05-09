@@ -33,7 +33,7 @@ class Scraper:
         self._log_path.mkdir(exist_ok=True)
 
         self._api = api
-        self._interface_api_url = 'interface_api:8000/'
+        self._interface_api_url = os.environ.get('INTERFACE_API_URL')
         if not self._interface_api_url:
             raise InputMissingException('Environment variable INTERFACE_API_URL not found.')
 
