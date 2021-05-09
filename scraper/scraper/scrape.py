@@ -29,6 +29,10 @@ class Scraper:
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
         self._log = log
         self._log_path = Path(os.getcwd()).parent  / 'logs'
+        # create the log directory if doesnt exist
+        self._log_path.mkdir(exist_ok=True)
+
+
         self._api = api
         self._interface_api_url = os.environ.get('INTERFACE_API_URL')
 
