@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 from requests import post, get, delete
 from datetime import datetime
 
@@ -21,6 +22,10 @@ class Scraper:
         else:
             self.path = Path(os.getcwd()) /'chromedriver'
 
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
         self.driver = webdriver.Chrome()
         self._log = log
         self._log_path = Path(os.getcwd())  / 'logs'
