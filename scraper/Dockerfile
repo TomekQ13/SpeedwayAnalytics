@@ -14,7 +14,7 @@ RUN apt-get -y install google-chrome-stable
 RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip -P ~/
 RUN unzip ~/chromedriver_linux64.zip -d ~/
 RUN rm ~/chromedriver_linux64.zip
-RUN mv -f ~/chromedriver /scraper
+RUN mv -f ~/chromedriver /scraper/chromedriver
 RUN chown root:root /scraper/chromedriver
 RUN chmod 0755 /scraper/chromedriver
 RUN rm /scraper/chromedriver.exe
