@@ -25,10 +25,10 @@ RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedrive
 RUN unzip ~/chromedriver_linux64.zip -d ~/
 RUN rm ~/chromedriver_linux64.zip
 RUN mv -f ~/chromedriver /scraper/chromedriver
-RUN chown root:root /scraper/chromedriver
-RUN chmod 0755 /scraper/chromedriver
 RUN rm /scraper/chromedriver.exe
 RUN mv /scraper/chromedriver /scraper/chromedriver.exe
+RUN chown root:root /scraper/chromedriver.exe
+RUN chmod 0755 /scraper/chromedriver.exe
 
 
 CMD ["python", "run.py"]
