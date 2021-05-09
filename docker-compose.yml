@@ -7,6 +7,8 @@ services:
              - POSTGRES_PASSWORD=postgres
         volumes: 
              - ./database:/database
+        ports:
+             - '5432:5432'
     scraper:
         build:
             context: ./scraper
