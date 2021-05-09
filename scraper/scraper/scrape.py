@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from requests import post, get, delete
 from datetime import datetime
 
-from scraper.exceptions import ExpectedValueMissingException
+from scraper.exceptions import ExpectedValueMissingException, InputMissingException
 from scraper.preprocess import rider_name
 
 class Scraper:
@@ -32,9 +32,10 @@ class Scraper:
         # create the log directory if doesnt exist
         self._log_path.mkdir(exist_ok=True)
 
-
         self._api = api
         self._interface_api_url = os.environ.get('INTERFACE_API_URL')
+        if not self._interface_api_url:
+            raise InputMissingException('Environment variable INTERFACE_API_URL not found.')
 
         # if set to True and already existing match is identified
         #  the scraper will make a DELETE request to an endpoint to delete the match and replace it
