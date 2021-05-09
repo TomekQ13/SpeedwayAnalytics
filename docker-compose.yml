@@ -6,7 +6,7 @@ services:
         environment: 
              - POSTGRES_PASSWORD=postgres
         volumes: 
-             - ./database:/database
+             - ./:/database
         ports:
              - '5432:5432'
     scraper:
@@ -22,4 +22,3 @@ services:
         restart: always
         ports:
             - '5000:5000'
-            - '80:80'
