@@ -16,7 +16,7 @@ RUN apt-get -y install google-chrome-stable
 RUN pip install pipenv
 ENV PROJECT_DIR /scraper
 ENV FLASK_APP run.py
-ENV INTERFACE_API_URL interface_api:5000/
+ENV INTERFACE_API_URL http://interface_api/
 COPY Pipfile Pipfile.lock ${PROJECT_DIR}/
 WORKDIR ${PROJECT_DIR}/
 RUN pipenv install --system --deploy
