@@ -2,7 +2,7 @@ FROM python:3.8
 
 # install dependencies
 RUN apt-get update
-RUN apt-get install -y unzip openjdk-8-jre-headless xvfb libxi6 libgconf-2-4
+RUN apt-get install -y unzip openjdk-8-jre-headless ca-certificates-java xvfb libxi6 libgconf-2-4
 
 RUN pip install pipenv
 ENV PROJECT_DIR /scraper
