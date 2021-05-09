@@ -26,7 +26,7 @@ class Scraper:
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
         self._log = log
         self._log_path = Path(os.getcwd())  / 'logs'
         self._api = api
