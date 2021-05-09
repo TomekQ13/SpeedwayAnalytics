@@ -11,15 +11,6 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/so
 RUN apt-get -y update
 RUN apt-get -y install google-chrome-stable
 
-RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip -P ~/
-RUN unzip ~/chromedriver_linux64.zip -d ~/
-RUN rm ~/chromedriver_linux64.zip
-RUN mv -f ~/chromedriver /scraper/chromedriver
-RUN chown root:root /scraper/chromedriver
-RUN chmod 0755 /scraper/chromedriver
-RUN rm /scraper/chromedriver.exe
-RUN mv /scraper/chromedriver /scraper/chromedriver.exe
-
 
 RUN pip install pipenv
 ENV PROJECT_DIR /scraper
@@ -29,6 +20,15 @@ COPY Pipfile Pipfile.lock ${PROJECT_DIR}/
 WORKDIR ${PROJECT_DIR}/
 RUN pipenv install --system --deploy
 COPY . .
+
+RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip -P ~/
+RUN unzip ~/chromedriver_linux64.zip -d ~/
+RUN rm ~/chromedriver_linux64.zip
+RUN mv -f ~/chromedriver /scraper/chromedriver
+RUN chown root:root /scraper/chromedriver
+RUN chmod 0755 /scraper/chromedriver
+RUN rm /scraper/chromedriver.exe
+RUN mv /scraper/chromedriver /scraper/chromedriver.exe
 
 
 CMD ["python", "run.py"]
