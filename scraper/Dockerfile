@@ -21,17 +21,11 @@ WORKDIR ${PROJECT_DIR}/
 RUN pipenv install --system --deploy
 COPY . .
 
-RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip -P ~/
+RUN wget -N https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip -P ~/
 RUN unzip ~/chromedriver_linux64.zip -d ~/
 RUN rm ~/chromedriver_linux64.zip
-RUN mv -f ~/chromedriver /scraper/chromedriver
-RUN rm /scraper/chromedriver.exe
-#RUN mv /scraper/chromedriver /scraper/chromedriver
-RUN chown root:root /scraper/chromedriver
-RUN chmod 0755 /scraper/chromedriver
+RUN mv -f ~/chromedriver /usr/local/bin/chromedriver
+RUN chown root:root /usr/local/bin/chromedriver
+RUN chmod 0755 /usr/local/bin/chromedriver
 
-WORKDIR ${PROJECT_DIR}/
-RUN ls
-RUN cd chromerdriver
-RUN ls
 CMD ["python", "run.py"]
