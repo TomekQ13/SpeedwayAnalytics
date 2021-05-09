@@ -20,7 +20,6 @@ COPY Pipfile Pipfile.lock ${PROJECT_DIR}/
 WORKDIR ${PROJECT_DIR}/
 RUN pipenv install --system --deploy
 COPY . .
-RUN mkdir scraper/logs/
 
 
 RUN wget -N https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_linux64.zip -P ~/
