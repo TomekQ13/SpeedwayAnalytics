@@ -19,10 +19,9 @@ class Scraper:
         if driver_path:
             self.path = driver_path
         else:
-            self.path = Path('scraper') / 'chromedriver'
+            self.path = Path(os.getcwd()) / 'scraper' /'chromedriver'
 
         self.driver = webdriver.Chrome(self.path)
-        print(f'Path is {self.path}')
         self._log = log
         self._log_path = Path(os.getcwd())  / 'logs'
         self._api = api
