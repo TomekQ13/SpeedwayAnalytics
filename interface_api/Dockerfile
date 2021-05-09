@@ -9,4 +9,4 @@ WORKDIR ${PROJECT_DIR}/
 RUN pipenv install --system --deploy
 COPY . .
 
-CMD gunicorn -w 3 run:app
+CMD flask run --host=0.0.0.0
