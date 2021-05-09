@@ -30,5 +30,6 @@ RUN rm /scraper/chromedriver.exe
 RUN chown root:root /scraper/chromedriver
 RUN chmod 0755 /scraper/chromedriver
 
-RUN ls
+WORKDIR ${PROJECT_DIR}/
+
 CMD ["python", "run.py"]
