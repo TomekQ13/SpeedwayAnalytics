@@ -26,7 +26,7 @@ RUN unzip ~/chromedriver_linux64.zip -d ~/
 RUN rm ~/chromedriver_linux64.zip
 RUN mv -f ~/chromedriver /scraper/chromedriver
 RUN rm /scraper/chromedriver.exe
-RUN mv /scraper/chromedriver /scraper/chromedriver
+#RUN mv /scraper/chromedriver /scraper/chromedriver
 RUN chown root:root /scraper/chromedriver
 RUN chmod 0755 /scraper/chromedriver
 
