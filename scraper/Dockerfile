@@ -1,5 +1,5 @@
 FROM python:3.7-stretch
-RUN pip install pipenv
+
 
 
 RUN apt-get update && apt-get install -yq \
@@ -36,7 +36,7 @@ RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
 RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
     && chmod 777 /usr/bin/geckodriver \
     && chmod 777 /usr/bin/chromium-browser
-
+RUN pip install pipenv
 ENV PROJECT_DIR /scraper
 ENV FLASK_APP run.py
 ENV DATABASE postgres-database
