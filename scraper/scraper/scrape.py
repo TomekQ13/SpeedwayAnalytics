@@ -125,7 +125,8 @@ class Scraper:
             raise ExpectedValueMissingException('The number of scraped match information is not equal to 4')
         else:
             result_dict['stadium'] = match_info[0].text
-            result_dict['round'] = match_info[1].text
+            # round needs to be processed not to say "5 Runda"
+            result_dict['round'] = int(match_info[1].text[0])
             # date is changed to a Python date object
             result_dict['date'] = datetime.strptime(match_info[2].text[0:match_info[2].text.find(',')], '%d.%m.%Y').strftime('%Y-%m-%d')
             result_dict['year'] = datetime.strptime(match_info[2].text[0:match_info[2].text.find(',')], '%d.%m.%Y').year
