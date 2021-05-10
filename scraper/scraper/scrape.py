@@ -28,7 +28,7 @@ class Scraper:
         chrome_options.add_argument('--disable-dev-shm-usage')
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
         self._log = log
-        self._log_path = Path(os.getcwd()).parent  / 'logs'
+        self._log_path = Path(os.getcwd())  / 'logs'
         # create the log directory if doesnt exist
         self._log_path.mkdir(exist_ok=True)
 
