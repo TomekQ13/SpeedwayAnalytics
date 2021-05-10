@@ -25,7 +25,7 @@ def match():
     for key, value in request.args.items():
         query = query.filter(getattr(Match, key) == value)    
     
-    return jsonify(Serialize.serialize_list(query.all(), excl_list=['heats']))
+    return jsonify(Serialize.serialize_list(query.all(), excl_list=['heats'])), 200
 
 @main.route('/heat', methods = ['GET'])
 def heat():
@@ -37,7 +37,7 @@ def heat():
     # Checks if there are no unknown query parameters - if there are display a message
     for key in request.args.keys():
         if key not in Heat.__dict__:
-            return jsonify({'message': 'Unknown query parameter.'})
+            return jsonify({'message': 'Unknown query parameter.'}), 200
 
     # Takes all GET request parameters and translates them to a SQLAlchemy query parameters
     query = Heat.query
