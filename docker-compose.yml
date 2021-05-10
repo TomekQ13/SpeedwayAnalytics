@@ -14,6 +14,8 @@ services:
             context: ./scraper
         volumes: 
              - ./scraper:/scraper
+        depends_on: 
+             - 'interface_api'
     interface_api:
         build:
             context: ./interface_api
@@ -22,3 +24,5 @@ services:
         restart: always
         ports:
             - '5000:5000'
+        depends_on: 
+             - 'postgres'
