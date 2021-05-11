@@ -137,7 +137,7 @@ class Scraper:
 
         return result_dict
     
-    def scrape_heat_results(self, match_url):
+    def scrape_heat_results(self, match_url, match_hash):
         if not self.driver.current_url == match_url:
             self.driver.get(match_url)
         
@@ -147,6 +147,7 @@ class Scraper:
         heats = self.driver.find_elements_by_class_name('match__heat')
         for heat in heats:            
             results_dict = {}
+            results_dict['match_hash'] = match_hash
 
             #only heat number has to be selected - time and repeat heat are discarded
             match_heat_header = heat.find_element_by_class_name('match__heat__header').text
@@ -208,7 +209,7 @@ class Scraper:
                     self.log(f"Made a delete request for match with match hash {match_results['match_hash']}. Received repsonse {resp_del.text}")
                     resp = self.post_match(match_results) 
                     self.log(f"Adding match results finished with response {resp.text}")
-                    self.scrape_heat_results(match)
+                    self.scrape_heat_results(match, match_results['match_hash'])
             
                 if not self._replace_matches:
                     # here we need to skip the match
