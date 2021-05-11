@@ -218,7 +218,7 @@ class Scraper:
 
             if not r:
                 self.post_match(match_results) 
-                self.scrape_heat_results(match)
+                self.scrape_heat_results(match, match_results['match_hash'])
 
             self.log(f'Scraping of match {match} finished.')
 
