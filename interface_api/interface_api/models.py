@@ -6,7 +6,7 @@ from interface_api.utils import Serialize
 class Heat(db.Model, Serialize):
     __tablename__ = 'if_heat'
     heat_id = db.Column(db.Integer(), primary_key=True)
-    match_id = db.Column(db.Integer(), db.ForeignKey('if_match.match_id', ondelete='CASCADE'))
+    match_hash = db.Column(db.Integer(), db.ForeignKey('if_match.match_hash', ondelete='CASCADE'))
     heat_number = db.Column(db.Integer(), nullable=False)
     a_rider = db.Column(db.String(64), nullable=False)
     a_score = db.Column(db.String(3), nullable=False)
