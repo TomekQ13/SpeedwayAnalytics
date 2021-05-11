@@ -199,12 +199,13 @@ class Scraper:
     def scrape_year(self, year_results):
         for match in self.prepare_matches_list(year_results):
             match_results = self.scrape_match_results(match)
-            # the block of code if this match already exists in the databse
+            
             r = get(self._interface_api_url + 'match', {'match_hash': match_results['match_hash']}).json()
             self.log(f"Request to check if match exists returned {r}")
             if r: # if the match already exists in the database
                 r = r[0]
                 if self._replace_matches: # and there replace option is true:
+                    # because of the cascade delete in the db the heats are also deleted
                     resp_del = delete(self._interface_api_url + 'delete_match' + '/' + str(r['match_id']))
                     self.log(f"Made a delete request for match with match hash {match_results['match_hash']}. Received repsonse {resp_del.text}")
                     resp = self.post_match(match_results) 

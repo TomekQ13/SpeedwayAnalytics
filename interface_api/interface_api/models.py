@@ -16,7 +16,7 @@ class Heat(db.Model, Serialize):
     c_score = db.Column(db.String(3), nullable=False)
     d_rider = db.Column(db.String(64), nullable=False)
     d_score = db.Column(db.String(3), nullable=False)
-    added_dttm = db.Column(db.DateTime(), nullable=False, default=datetime.now())
+    added_dttm = db.Column(db.DateTime(), nullable=False, default=datetime.now)
 
 class Match(db.Model, Serialize):
     __tablename__ = 'if_match'
