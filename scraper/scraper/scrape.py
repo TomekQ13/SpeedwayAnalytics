@@ -202,23 +202,31 @@ class Scraper:
             # the block of code if this match already exists in the databse
             r = get(self._interface_api_url + 'match', {'match_hash': match_results['match_hash']}).json()
             self.log(f"Request to check if match exists returned {r}")
-            if r:
+            if r: # if the match already exists in the database
                 r = r[0]
-                if self._replace_matches: #match exists:
+                if self._replace_matches: # and there replace option is true:
                     resp_del = delete(self._interface_api_url + 'delete_match' + '/' + str(r['match_id']))
                     self.log(f"Made a delete request for match with match hash {match_results['match_hash']}. Received repsonse {resp_del.text}")
                     resp = self.post_match(match_results) 
                     self.log(f"Adding match results finished with response {resp.text}")
-                    self.scrape_heat_results(match, match_results['match_hash'])
+                    
+                    # if there is a problem with scraping the heats the match is deleted to ensure quality of data
+                    try:
+                        self.scrape_heat_results(match, match_results['match_hash'])
+                    except:
+                        delete(self._interface_api_url + 'delete_match' + '/' + str(match_results['match_id']))
             
-                if not self._replace_matches:
-                    # here we need to skip the match
+                if not self._replace_matches: # and there replace option is false
                     self.log(f"This match is already in the database. Skipping. Match url {match_results['match_url']}")
                     continue
 
             if not r:
-                self.post_match(match_results) 
-                self.scrape_heat_results(match, match_results['match_hash'])
+                self.post_match(match_results)
+                # if there is a problem with scraping the heats the match is deleted to ensure quality of data
+                try:
+                    self.scrape_heat_results(match, match_results['match_hash'])
+                except:
+                    delete(self._interface_api_url + 'delete_match' + '/' + str(match_results['match_id']))
 
             self.log(f'Scraping of match {match} finished.')
 
