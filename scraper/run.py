@@ -1,35 +1,10 @@
 from scraper.scrape import Scraper
 
 scraper = Scraper()
+years = [str(x) for x in range(2007, 2021)]
 try:
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2020')
-    scraper.log('Finished year 2020')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2019')
-    scraper.log('Finished year 2019')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2018')
-    scraper.log('Finished year 2018')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2017')
-    scraper.log('Finished year 2017')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2016')
-    scraper.log('Finished year 2016')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2015')
-    scraper.log('Finished year 2015')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2014')
-    scraper.log('Finished year 2014')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2013')
-    scraper.log('Finished year 2013')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2012')
-    scraper.log('Finished year 2012')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2011')
-    scraper.log('Finished year 2011')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2010')
-    scraper.log('Finished year 2010')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2009')
-    scraper.log('Finished year 2009')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2008')
-    scraper.log('Finished year 2008')
-    scraper.scrape_year('https://speedwayekstraliga.pl/terminarz-i-wyniki/?y=2007')
-    scraper.log('Finished year 2007')
-
+    for year in years:
+        scraper.scrape_year(f'https://speedwayekstraliga.pl/terminarz-i-wyniki/?y={year}')
+        scraper.log(f'Finished year {year}')
 finally:
     scraper.close()
