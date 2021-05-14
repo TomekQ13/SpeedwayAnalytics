@@ -17,6 +17,7 @@ from scraper.preprocess import rider_name
 class Scraper:
     """Scrapes data about speedway matches"""
     def __init__(self, driver_path=None, log=True, api=True, replace_matches=True):
+
         if driver_path:
             self.path = driver_path
         else:
@@ -70,7 +71,8 @@ class Scraper:
 
         return r
 
-    def get_match_hash(self, result_dict):
+    @staticmethod
+    def get_match_hash(result_dict):
         concatenate = f"{result_dict['name_team_home']}|{result_dict['name_team_away']}|{result_dict['date']}".encode()
         match_hash = sha256(concatenate).hexdigest()
         return match_hash
@@ -137,10 +139,13 @@ class Scraper:
 
         return result_dict
     
-    def scrape_heat_results(self, match_url, match_hash):
+    def scrape_heat_results(self, match_url, match_hash=None):
         if not self.driver.current_url == match_url:
             self.driver.get(match_url)
         
+        if not match_hash:
+            self.get_match_hash()
+
         self.log(f'Started scraping heats results for match {match_url}')
         results_list = []
 
@@ -156,6 +161,7 @@ class Scraper:
             self.log(f"Heat number: {results_dict['heat_number']}")
 
             riders = heat.find_elements_by_tag_name('tr')
+            place_names = ['a' , 'b', 'c', 'd']
 
             property = riders[0].find_elements_by_tag_name('td')
             results_dict['a_rider'] = rider_name(property)
@@ -164,19 +170,19 @@ class Scraper:
             self.log(f"A_score: {results_dict['a_score']}")
             
             property = riders[1].find_elements_by_tag_name('td')
-            results_dict['b_rider'] = property[2].text
+            results_dict['b_rider'] = rider_name(property[2].text)
             self.log(f"B_rider: {results_dict['b_rider']}")
             results_dict['b_score'] = property[3].text
             self.log(f"B_score: {results_dict['b_score']}")
             
             property = riders[2].find_elements_by_tag_name('td')
-            results_dict['c_rider'] = property[2].text
+            results_dict['c_rider'] = rider_name(property[2].text)
             self.log(f"C_rider: {results_dict['c_rider']}")
             results_dict['c_score'] = property[3].text
             self.log(f"C_score: {results_dict['c_score']}")
             
             property = riders[3].find_elements_by_tag_name('td')
-            results_dict['d_rider'] = property[2].text
+            results_dict['d_rider'] = rider_name(property[2].text)
             self.log(f"D_rider: {results_dict['d_rider']}")
             results_dict['d_score'] = property[3].text
             self.log(f"D_score: {results_dict['d_score']}")
