@@ -102,7 +102,8 @@ class Scraper:
         #get the scores
         scores = self.driver.find_elements_by_class_name('match__header__score')
         if len(scores) != 2:
-            raise ExpectedValueMissingException('The number of scraped scores is not equal to 2')
+            #raise ExpectedValueMissingException('The number of scraped scores is not equal to 2')
+            pass
         else:
             result_dict['score_team_home'] = int(scores[0].text)
             self.log(f'home team score {scores[0].text}')
