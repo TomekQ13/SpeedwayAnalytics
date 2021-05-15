@@ -144,7 +144,7 @@ class Scraper:
             self.driver.get(match_url)
         
         if not match_hash:
-            self.get_match_hash()
+            match_hash = self.get_match_hash()
 
         self.log(f'Started scraping heats results for match {match_url}')
         results_list = []
