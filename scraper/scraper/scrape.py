@@ -170,19 +170,19 @@ class Scraper:
             self.log(f"A_score: {results_dict['a_score']}")
             
             property = riders[1].find_elements_by_tag_name('td')
-            results_dict['b_rider'] = rider_name(property[2].text)
+            results_dict['b_rider'] = rider_name(property)
             self.log(f"B_rider: {results_dict['b_rider']}")
             results_dict['b_score'] = property[3].text
             self.log(f"B_score: {results_dict['b_score']}")
             
             property = riders[2].find_elements_by_tag_name('td')
-            results_dict['c_rider'] = rider_name(property[2].text)
+            results_dict['c_rider'] = rider_name(property)
             self.log(f"C_rider: {results_dict['c_rider']}")
             results_dict['c_score'] = property[3].text
             self.log(f"C_score: {results_dict['c_score']}")
             
             property = riders[3].find_elements_by_tag_name('td')
-            results_dict['d_rider'] = rider_name(property[2].text)
+            results_dict['d_rider'] = rider_name(property)
             self.log(f"D_rider: {results_dict['d_rider']}")
             results_dict['d_score'] = property[3].text
             self.log(f"D_score: {results_dict['d_score']}")
