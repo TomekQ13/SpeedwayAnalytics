@@ -102,8 +102,7 @@ class Scraper:
         #get the scores
         scores = self.driver.find_elements_by_class_name('match__header__score')
         if len(scores) != 2:
-            #raise ExpectedValueMissingException('The number of scraped scores is not equal to 2')
-            pass
+            raise ExpectedValueMissingException('The number of scraped scores is not equal to 2')
         else:
             result_dict['score_team_home'] = int(scores[0].text)
             self.log(f'home team score {scores[0].text}')
@@ -205,7 +204,12 @@ class Scraper:
 
     def scrape_year(self, year_results):
         for match in self.prepare_matches_list(year_results):
-            match_results = self.scrape_match_results(match)
+            try:
+                match_results = self.scrape_match_results(match)
+            except ExpectedValueMissingException:
+                self.log(f'Incomplete data in match {match}. Skipping the match.')
+            except Exception as e:
+                self.log(f'Encountered unknown error while scraping {match}. Error message: {e}')
             
             r = get(self._interface_api_url + 'match', {'match_hash': match_results['match_hash']}).json()
             self.log(f"Request to check if match exists returned {r}")
