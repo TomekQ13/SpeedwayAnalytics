@@ -33,8 +33,16 @@ select count(score) from rider_score_heat rsh2 where rsh2.heat_number > 1 group 
 
 order by match_hash, heat_number;
 
-select distinct score from rider_score_heat;
+select t1.match_hash, t1.heat_number, t1.rider, sum(cast(t2.score as integer))  from rider_score_heat t1
+left join rider_score_heat t2
+on
+	t1.rider = t2.rider
+	and t1.heat_number > t2.heat_number
+	and t1.match_hash = t2.match_hash
+where t1.rider != '-'
+group by t1.match_hash, t1.heat_number, t1.rider;
+-- data quality needs to be ensured
 
-delete from if_heat;
-
+select * from if_heat;
 delete from if_match;
+delete from if_heat;
