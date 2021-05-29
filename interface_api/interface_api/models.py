@@ -33,7 +33,7 @@ class Match(db.Model, Serialize):
     score_team_home = db.Column(db.Integer(), nullable=False)
     score_team_away = db.Column(db.Integer(), nullable=False)
     heats = db.relationship('Heat', backref='match')
-    added_dttm = db.Column(db.DateTime(), nullable=False, default=datetime.now())
+    added_dttm = db.Column(db.DateTime(), nullable=False, default=datetime.now)
 
 
 
