@@ -164,7 +164,7 @@ class Scraper:
 
             for rider in riders:
                 property = rider.find_elements_by_tag_name('td')
-                start_place = property[0].text
+                start_place = property[0].text.lower()
                 results_dict[start_place + '_rider'] = rider_name(property)
                 self.log(f"{start_place} + '_rider': {results_dict[start_place + '_rider']}")
                 results_dict[start_place + '_score'] = property[3].text
