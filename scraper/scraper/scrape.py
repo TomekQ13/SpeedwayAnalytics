@@ -161,31 +161,14 @@ class Scraper:
             self.log(f"Heat number: {results_dict['heat_number']}")
 
             riders = heat.find_elements_by_tag_name('tr')
-            place_names = ['a' , 'b', 'c', 'd']
 
-            property = riders[0].find_elements_by_tag_name('td')
-            results_dict['a_rider'] = rider_name(property)
-            self.log(f"A_rider: {results_dict['a_rider']}")
-            results_dict['a_score'] = property[3].text
-            self.log(f"A_score: {results_dict['a_score']}")
-            
-            property = riders[1].find_elements_by_tag_name('td')
-            results_dict['b_rider'] = rider_name(property)
-            self.log(f"B_rider: {results_dict['b_rider']}")
-            results_dict['b_score'] = property[3].text
-            self.log(f"B_score: {results_dict['b_score']}")
-            
-            property = riders[2].find_elements_by_tag_name('td')
-            results_dict['c_rider'] = rider_name(property)
-            self.log(f"C_rider: {results_dict['c_rider']}")
-            results_dict['c_score'] = property[3].text
-            self.log(f"C_score: {results_dict['c_score']}")
-            
-            property = riders[3].find_elements_by_tag_name('td')
-            results_dict['d_rider'] = rider_name(property)
-            self.log(f"D_rider: {results_dict['d_rider']}")
-            results_dict['d_score'] = property[3].text
-            self.log(f"D_score: {results_dict['d_score']}")
+            for rider in riders:
+                property = rider.find_elements_by_tag_name('td')
+                start_place = property[0].text
+                results_dict[start_place + '_rider'] = rider_name(property)
+                self.log(f"{start_place} + '_rider': {results_dict[start_place + '_rider']}")
+                results_dict[start_place + '_score'] = property[3].text
+                self.log(f"{start_place} + '_score': {results_dict[start_place + '_score']}")
 
             results_list.append(results_dict)            
             
