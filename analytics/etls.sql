@@ -1,3 +1,6 @@
+
+
+
 create materialized view rider_score_heat as 
 WITH max_heat_id_per_heat as (
 	select max(heat_id) as max_heat_id
@@ -34,26 +37,12 @@ where rider <> '-'
 order by match_hash
 ;
 
-create materialized view previous_heats as
+
+create materialized view tr_previous_heats as
 select
 	rsh.*,
-	coalesce((select sum(score) from rider_score_heat rsh2 where rsh2.heat_number < rsh.heat_number and rsh.rider = rsh2.rider and rsh.match_hash = rsh2.match_hash group by match_hash, rider),0) as sum_points,
-	coalesce((select count(score) from rider_score_heat rsh2 where rsh2.heat_number < rsh.heat_number and rsh.rider = rsh2.rider and rsh.match_hash = rsh2.match_hash group by match_hash, rider),0) as no_heats
-from rider_score_heat rsh;
+	coalesce((select sum(score) from tr_rider_score_heat rsh2 where rsh2.heat_number < rsh.heat_number and rsh.rider = rsh2.rider and rsh.match_hash = rsh2.match_hash group by match_hash, rider),0) as sum_points,
+	coalesce((select count(score) from tr_rider_score_heat rsh2 where rsh2.heat_number < rsh.heat_number and rsh.rider = rsh2.rider and rsh.match_hash = rsh2.match_hash group by match_hash, rider),0) as no_heats
+from tr_rider_score_heat rsh;
 
 
-select * from previous_heats where match_hash = '012bd5536e3c39bca7c4a5399368385a65273076668873d4431f07a1e1391909' and rider = 'Nicki Pedersen' order by heat_number;
-
-
---create extraction + data quality layer
-select * from if_heat where match_hash is null;
-select * from if_match where match_hash is null;
-
-select m.match_hash, count(*) as cnt from if_match m
-inner join if_heat h
-on m.match_hash = h.match_hash
-group by m.match_hash;
-
-
-
-select * from if_heat where match_hash = '442a7575ae5e6e8b562c09b349ac902b3c0938c9b58235a44818fc4154277066';
