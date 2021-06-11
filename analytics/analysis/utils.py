@@ -6,13 +6,13 @@ class ObjectNotFittedException(Exception):
     pass
 
 def require_fit(func):
-    def inner_func(obj, *args):        
+    def inner_func(self, *args, **kwargs):      
         try:
-            a = obj.col_cats
+            a = self.col_cats
         except AttributeError:
             raise ObjectNotFittedException('Object is not fitted.')
             
-        func(*args)
+        func(self, *args, **kwargs)
 
     return inner_func
 
@@ -24,16 +24,22 @@ class BinaryEncoder:
             self.col_cats[column] = data[column].unique().tolist()
 
     @require_fit
-    def transform(self, data:DataFrame):
+    def transform(self, data:DataFrame, delete_original:bool=True):
+        for column in self.col_cats.keys():
+            for value in self.col_cats[column]:
+                col_name = (column + '_' + str(value))
+                chars_to_replace = [(' ', '_')]
+                for char in chars_to_replace:
+                    col_name = col_name.replace(char[0], char[1])
+                data[col_name] = (data[column] == str(value)).astype(int)
+            if delete_original:
+                data.drop(columns=[column], inplace=True)
+        return data
 
-        pass
-
-    def fit_transform(self, data:DataFrame, columns:list):
+    def fit_transform(self, data:DataFrame, columns:list, delete_original:bool=True):
         self.fit(data, columns)
-    
-        pass
-
-
+        self.transform(data, delete_original)
+        return data
 
     @require_fit
     def save(self, filename:str):
