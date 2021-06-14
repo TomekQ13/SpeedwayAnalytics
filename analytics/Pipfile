@@ -10,6 +10,8 @@ sqlalchemy = "*"
 ipykernel = "*"
 psycopg2 = "*"
 pandas = "*"
+numpy = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.8"
