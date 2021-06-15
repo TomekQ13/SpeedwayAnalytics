@@ -1,7 +1,7 @@
 from pandas import DataFrame
 import json
 from functools import wraps
-from numpy import random, copy, where, argmax
+from numpy import array, random, copy, where, argmax, max
 
 class ObjectNotFittedException(Exception):
     pass
@@ -134,7 +134,8 @@ class XYTrainTestSplitter:
 
 class PredictionTransformer:
     '''Transforms the prediction to points'''
-    def transform(self, prediction_array):
+    @staticmethod
+    def transform(prediction_array):
         return_arr = copy(prediction_array)
         for arr in return_arr:
             sorted_arr = copy(arr)
@@ -149,13 +150,13 @@ class PredictionTransformer:
         return return_arr
 
 class Scorer:
-    def score_heat(self, arr_pred, arr_Y_test):
-        if arr_pred == arr_Y_test:
+    def score_heat(self, arr_pred:array, arr_Y_test:array):
+        if (arr_pred == arr_Y_test).all():
             self.all_correct += 1
             self.winner_correct += 1
-            return ('all correct')
+            return 'all correct'
 
-        if argmax(arr_pred) == argmax(arr_Y_test):
+        if argmax(arr_pred) == argmax(arr_Y_test) and max(arr_pred) == max(arr_Y_test) == 3:
             self.winner_correct +=1
             return 'winner correct'
 
@@ -171,10 +172,18 @@ class Scorer:
         self.score_arr = []
 
         for heat in enumerate(pred):
-            prediction = self.score_heat(heat[1], Y_test[heat[0]])
+            prediction = self.score_heat(heat[1], Y_test.iloc[heat[0], :].to_numpy().astype(int))
             self.score_arr.append(prediction)
 
-        return self.score_arr
+        self.results = {
+            'winner_correct_%': round(self.winner_correct/self.no_obs * 100, 4),
+            'all_correct_%': round(self.all_correct/self.no_obs * 100, 4),
+            'no_obs': self.no_obs,
+            'winner_correct': self.winner_correct,
+            'all_correct': self.all_correct
+        }
+
+        return self.results
 
 
             
