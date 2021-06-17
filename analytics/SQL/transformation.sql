@@ -1,10 +1,11 @@
---drop  materialized view tr_heat cascade;
+drop  materialized view tr_heat cascade;
 create materialized view tr_heat as 
 WITH max_heat_id_per_heat as (
 	select max(heat_id) as max_heat_id
 	from if_heat
 	group by match_hash, heat_number
-) select
+), scores_casted as (
+	select
 	heat_id,
 	match_hash,
 	heat_number,
@@ -19,13 +20,26 @@ WITH max_heat_id_per_heat as (
 	added_dttm
 	from if_heat t1
 	inner join max_heat_id_per_heat t2
-	on t1.heat_id = t2.max_heat_id
+		on t1.heat_id = t2.max_heat_id
 	where
 		match_hash is not null
 		and a_rider <> '-'
 		and b_rider <> '-'
 		and c_rider <> '-'
-		and d_rider <> '-';
+		and d_rider <> '-'
+), sum_6_heats as (
+	select heat_id, sum(a_score + b_score + c_score + d_score) as score_sum
+	from scores_casted
+	group by heat_id
+)
+select scores_casted.*
+from scores_casted
+inner join sum_6_heats 
+	on sum_6_heats.heat_id = scores_casted.heat_id
+where
+	sum_6_heats.score_sum = 6
+
+;
 		
 
 create materialized view tr_match as
@@ -57,3 +71,7 @@ select
 	coalesce((select sum(score) from tr_rider_score_heat rsh2 where rsh2.heat_number < rsh.heat_number and rsh.rider = rsh2.rider and rsh.match_hash = rsh2.match_hash group by match_hash, rider),0) as sum_points,
 	coalesce((select count(score) from tr_rider_score_heat rsh2 where rsh2.heat_number < rsh.heat_number and rsh.rider = rsh2.rider and rsh.match_hash = rsh2.match_hash group by match_hash, rider),0) as no_heats
 from tr_rider_score_heat rsh;
+
+
+
+

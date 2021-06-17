@@ -1,4 +1,4 @@
-drop materialized view car_heat;
+--drop materialized view car_heat;
 create materialized view car_heat as
 WITH point_avg_sum as (
 	select rider, year, round(avg(score),2) as point_year_avg, sum(score) as point_year_sum

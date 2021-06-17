@@ -149,6 +149,12 @@ class PredictionTransformer:
 
         return return_arr
 
+    @staticmethod
+    def transform_winner_only(prediction_array):
+        prediction_array = where(prediction_array < 3, 0, prediction_array)
+        return prediction_array
+            
+
 class Scorer:
     def score_heat(self, arr_pred:array, arr_Y_test:array):
         if (arr_pred == arr_Y_test).all():
